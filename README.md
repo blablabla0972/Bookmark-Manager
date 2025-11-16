@@ -1,4 +1,4 @@
-# Arc Bookmark Extension
+# BookmarkDock
 
 A modern, elegant Chrome extension for managing bookmarks with an intuitive tree-based interface and powerful search capabilities.
 
@@ -44,7 +44,7 @@ A modern, elegant Chrome extension for managing bookmarks with an intuitive tree
 
 1. **Clone or Download** the extension:
    ```bash
-   git clone https://github.com/yourusername/arc-bookmark-extension.git
+   git clone https://github.com/yourusername/bookmarkdock.git
    ```
    Or download and extract the ZIP file.
 
@@ -54,11 +54,11 @@ A modern, elegant Chrome extension for managing bookmarks with an intuitive tree
 
 3. **Load Extension**:
    - Click **Load unpacked**
-   - Select the `arc-bookmark-extension` folder
+   - Select the `bookmarkdock` folder
 
 4. **Pin Extension** (Optional):
    - Click the puzzle icon in Chrome toolbar
-   - Find "Arc Bookmark Extension"
+   - Find "BookmarkDock"
    - Click the pin icon to keep it visible
 
 ## 📖 Usage
@@ -106,7 +106,7 @@ A modern, elegant Chrome extension for managing bookmarks with an intuitive tree
 ### Architecture
 
 ```
-arc-bookmark-extension/
+bookmarkdock/
 ├── manifest.json          # Extension configuration (Manifest V3)
 ├── background.js          # Service worker for bookmark management
 ├── mini-panel.html        # Popup interface HTML
@@ -155,8 +155,8 @@ arc-bookmark-extension/
 
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/yourusername/arc-bookmark-extension.git
-   cd arc-bookmark-extension
+   git clone https://github.com/yourusername/bookmarkdock.git
+   cd bookmarkdock
    ```
 
 2. **Load in Chrome**:
@@ -365,7 +365,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you encounter any issues or have questions:
 
 1. Check the [Troubleshooting](#-troubleshooting) section
-2. Search existing [Issues](https://github.com/yourusername/arc-bookmark-extension/issues)
+2. Search existing [Issues](https://github.com/yourusername/bookmarkdock/issues)
 3. Open a new issue with detailed information
 4. Contact: your.email@example.com
 

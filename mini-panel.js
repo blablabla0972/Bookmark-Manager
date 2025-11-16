@@ -1,5 +1,5 @@
 // ============================================
-// FIXED MINI PANEL - EVERYTHING WORKS
+// BOOKMARKDOCK MINI PANEL
 // Clean design with working functionality
 // ============================================
 

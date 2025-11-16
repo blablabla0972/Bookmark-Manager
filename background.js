@@ -136,4 +136,4 @@ async function handleMessage(message, sender) {
   }
 }
 
-console.log('🚀 Arc Bookmark Manager - Service worker ready');
+console.log('🚀 BookmarkDock - Service worker ready');

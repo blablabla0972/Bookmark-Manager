@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Arc Bookmark Manager",
+  "name": "BookmarkDock",
   "version": "2.0.0",
   "description": "Beautiful bookmark manager with smart organization and mini panel",
   "permissions": [
@@ -13,7 +13,7 @@
   },
   "action": {
     "default_popup": "mini-panel.html",
-    "default_title": "Arc Bookmark Manager",
+    "default_title": "BookmarkDock",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

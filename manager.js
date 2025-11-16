@@ -1,5 +1,5 @@
 // ============================================
-// FIXED BOOKMARK MANAGER - EVERYTHING WORKS
+// BOOKMARKDOCK MANAGER
 // Clean and functional manager
 // ============================================
 
