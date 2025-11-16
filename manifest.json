@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Arc Bookmark Manager",
+  "version": "2.0.0",
+  "description": "Beautiful bookmark manager with smart organization and mini panel",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "mini-panel.html",
+    "default_title": "Arc Bookmark Manager",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+M",
+        "mac": "Command+Shift+M"
+      }
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

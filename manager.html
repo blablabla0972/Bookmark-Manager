@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmark Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        .dark body {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dark .title {
+            color: #f1f5f9;
+        }
+
+        .title-icon {
+            width: 32px;
+            height: 32px;
+            color: #7c3aed;
+        }
+
+        .search-section {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .dark .search-input {
+            background: #1e293b;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        .dark .search-input:focus {
+            border-color: #a78bfa;
+        }
+
+        .stats {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .tree-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .tree-container {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .tree-item:hover {
+            background: #f8fafc;
+        }
+
+        .tree-item:last-child {
+            border-bottom: none;
+        }
+
+        .dark .tree-item {
+            border-color: #334155;
+        }
+
+        .dark .tree-item:hover {
+            background: #334155;
+        }
+
+        .folder-item {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .dark .folder-item {
+            color: #d1d5db;
+        }
+
+        .folder-arrow {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .folder-arrow.expanded {
+            transform: rotate(90deg);
+        }
+
+        .folder-icon {
+            width: 20px;
+            height: 20px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+
+        .bookmark-item {
+            color: #4b5563;
+        }
+
+        .dark .bookmark-item {
+            color: #9ca3af;
+        }
+
+        .bookmark-favicon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .bookmark-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bookmark-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dark .bookmark-title {
+            color: #f1f5f9;
+        }
+
+        .bookmark-url {
+            font-size: 12px;
+            color: #9ca3af;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .bookmark-count {
+            font-size: 12px;
+            color: #9ca3af;
+            background: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .dark .bookmark-count {
+            background: #475569;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+
+        /* Tree indentation */
+        .indent-1 { padding-left: 48px; }
+        .indent-2 { padding-left: 64px; }
+        .indent-3 { padding-left: 80px; }
+        .indent-4 { padding-left: 96px; }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 64px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #7c3aed;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <svg class="title-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+                </svg>
+                Bookmark Manager
+            </h1>
+        </header>
+
+        <div class="search-section">
+            <input type="text" id="search-input" class="search-input" placeholder="Search bookmarks and folders...">
+            <div id="stats" class="stats"></div>
+        </div>
+
+        <div class="tree-container" id="content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="manager.js"></script>
+</body>
+</html>

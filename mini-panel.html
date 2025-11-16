@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Bookmarks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            width: 300px;
+            max-height: 450px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .dark body {
+            background: #1f2937;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 16px;
+        }
+
+        .dark .header {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark .header-title {
+            color: #f9fafb;
+        }
+
+        .header-icon {
+            width: 16px;
+            height: 16px;
+            color: #7c3aed;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark .tabs {
+            background: #111827;
+            border-color: #374151;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+
+        .dark .tab-btn {
+            color: #9ca3af;
+        }
+
+        .dark .tab-btn.active {
+            color: #a78bfa;
+            border-bottom-color: #a78bfa;
+        }
+
+        /* Search */
+        .search-section {
+            padding: 12px 16px;
+            background: white;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .dark .search-section {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #f9fafb;
+            color: #111827;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #7c3aed;
+            background: white;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+        }
+
+        .dark .search-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        .dark .search-input:focus {
+            border-color: #a78bfa;
+            background: #374151;
+        }
+
+        /* Content */
+        .content {
+            height: 300px;
+            overflow-y: auto;
+            padding: 8px;
+            background: white;
+        }
+
+        .dark .content {
+            background: #1f2937;
+        }
+
+        /* Bookmark Items */
+        .bookmark-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .bookmark-item:hover {
+            background: #f3f4f6;
+        }
+
+        .dark .bookmark-item:hover {
+            background: #374151;
+        }
+
+        .bookmark-favicon {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .bookmark-title {
+            flex: 1;
+            font-size: 13px;
+            color: #374151;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dark .bookmark-title {
+            color: #d1d5db;
+        }
+
+        .bookmark-url {
+            font-size: 11px;
+            color: #9ca3af;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        /* Folder Items */
+        .folder-item {
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .dark .folder-item {
+            color: #f9fafb;
+        }
+
+        .folder-arrow {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.2s;
+        }
+
+        .folder-arrow.expanded {
+            transform: rotate(90deg);
+        }
+
+        .folder-icon {
+            width: 16px;
+            height: 16px;
+            color: #3b82f6;
+        }
+
+        .bookmark-count {
+            font-size: 11px;
+            color: #9ca3af;
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .dark .bookmark-count {
+            background: #4b5563;
+        }
+
+        /* Tree indentation */
+        .indent-1 { margin-left: 16px; }
+        .indent-2 { margin-left: 32px; }
+        .indent-3 { margin-left: 48px; }
+        .indent-4 { margin-left: 64px; }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 13px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            padding: 12px 16px;
+        }
+
+        .dark .footer {
+            background: #111827;
+            border-color: #374151;
+        }
+
+        .manager-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .manager-btn:hover {
+            background: linear-gradient(135deg, #6d28d9, #4f46e5);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .manager-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Scrollbar */
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 3px;
+        }
+
+        .dark .content::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        /* Utilities */
+        .flex { display: flex; }
+        .flex-1 { flex: 1; }
+        .min-w-0 { min-width: 0; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+            </svg>
+            Quick Bookmarks
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button id="tab-saved" class="tab-btn active">Saved</button>
+        <button id="tab-bookmarks" class="tab-btn">Bookmarks</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-section">
+        <input type="text" id="search-input" class="search-input" placeholder="Search bookmarks...">
+    </div>
+
+    <!-- Content -->
+    <div id="content" class="content">
+        <!-- Content will be rendered here -->
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <button id="open-manager-btn" class="manager-btn">
+            <svg class="manager-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+            Open Full Manager
+        </button>
+    </div>
+
+    <script src="mini-panel.js"></script>
+</body>
+</html>
