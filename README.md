@@ -325,8 +325,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [blablabla0972]([https://github.com/yourusername](https://github.com/blablabla0972))
+- Email: hoangnampt387@gmail.com
 
 ## 🙏 Acknowledgments
 
